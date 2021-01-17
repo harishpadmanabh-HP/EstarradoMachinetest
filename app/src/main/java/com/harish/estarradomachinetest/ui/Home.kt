@@ -1,4 +1,4 @@
-package com.harish.estarradomachinetest
+package com.harish.estarradomachinetest.ui
 
 import android.app.Application
 import android.os.Bundle
@@ -11,6 +11,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.harish.estarradomachinetest.viewmodel.HomeViewModel
+import com.harish.estarradomachinetest.viewmodel.HomeViewModelFactory
+import com.harish.estarradomachinetest.R
+import com.harish.estarradomachinetest.adapters.BannerAdapter
 import com.harish.estarradomachinetest.adapters.HomeAdapter
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
@@ -33,6 +37,7 @@ class Home : Fragment() {
 
 
 
+
         return root
     }
 
@@ -40,14 +45,10 @@ class Home : Fragment() {
 
         viewModel.apply {
             apiResponse.observe(requireActivity(), Observer {
-                Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
 
-
-
-
+                root.home_viewpager.adapter = BannerAdapter(it.data.bannerSlider)
                 root.home_recycler_view.layoutManager = LinearLayoutManager(requireContext(),RecyclerView.VERTICAL,false)
-                root.home_recycler_view.adapter = HomeAdapter("Featured",it.data.featured.featured,null)
-                root.home_recycler_view.adapter = HomeAdapter("Categories",null,it.data.categories)
+                root.home_recycler_view.adapter = HomeAdapter("Featured",it.data.featured,it.data.categories)
 
             })
             events.observe(requireActivity(), Observer {
@@ -58,10 +59,15 @@ class Home : Fragment() {
     }
 
     private fun initViewModel(application: Application) {
-        val factory = HomeViewModelFactory(application)
+        val factory =
+            HomeViewModelFactory(
+                application
+            )
         viewModel = ViewModelProvider(requireActivity(),factory).get(HomeViewModel::class.java)
 
     }
+
+
 
 
 }

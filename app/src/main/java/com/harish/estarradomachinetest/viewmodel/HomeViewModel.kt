@@ -1,4 +1,4 @@
-package com.harish.estarradomachinetest
+package com.harish.estarradomachinetest.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData

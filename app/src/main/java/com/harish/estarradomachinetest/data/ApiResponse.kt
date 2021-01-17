@@ -118,6 +118,7 @@ data class ApiResponse(
 class HomeData
     (
     var item:String,
-    var data : Any
+    var products : List<ApiResponse.Data.Featured>?
+
 ){
 }
